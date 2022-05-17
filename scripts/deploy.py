@@ -17,15 +17,18 @@ def deploy_fund_me():
             "eth_usd_price_feed"
         ]
     else:
-        deploy_mocks()
-
+        deploy_mocks() # it's used to deploy a .sol code in the development network to simulate what the chainlink does in the test or main net. I need it because obviously in the local network I dont have chainlink oracle which could give me the eth usd pricefeed so I create artifically locally deployng a solidity program which does the job.
+        price_feed_address = MockV3Aggregator[-1].address
+    
+    # deploy the FundMe.sol to the active network
     fund_me = FundMe.deploy(
-        "0x8A753747A1Fa494EC906cE90E9f37563A8AF630e",
+        price_feed_address,
         {"from": account},
         publish_source=config["networks"][network.show_active()].get("verify"),
     )
     print("Contract deployed to :", fund_me.address)
     return fund_me
+
 
 def get_account():
     if network.show_active() in LOCAL_BLOCKCHAIN_ENVIRONMENTS:

@@ -41,6 +41,7 @@ contract FundMe {
     address public owner;
     AggregatorV3Interface public priceFeed;
 
+    // in the constructor I define the priceFeed address where I get the chainlink ethusd price. I also define the owner by telling that is who deploy the contract
     constructor(address _priceFeed) public {
         priceFeed = AggregatorV3Interface(_priceFeed);
         owner = msg.sender;
