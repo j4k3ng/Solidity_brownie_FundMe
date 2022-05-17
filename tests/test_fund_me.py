@@ -23,6 +23,6 @@ def test_only_owner_can_withdraw():
     if network.show_active() not in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
         pytest.skip("only local testing")
     fund_me = deploy_fund_me()
-    bad_actor = accounts.add()
-    with pytest.raises(exceptions.VirtualMachineError):
+    bad_actor = accounts.add()  # create an account which didnt deploy the fund_me so it's not the owner
+    with pytest.raises(exceptions.VirtualMachineError): # a virtual machine error is risen when trying to withdrow money from an account which is not the owner of the Fundme contract
         fund_me.withdraw({"from": bad_actor})

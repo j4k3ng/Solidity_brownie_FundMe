@@ -6,7 +6,7 @@ from brownie import MockV3Aggregator
 from web3 import Web3
 
 LOCAL_BLOCKCHAIN_ENVIRONMENTS = ["development", "ganache-local"]
-
+FORKED_LOCAL_ENVIRONMENTS = ['mainnet-fork', 'mainnet-fork-dev']    #NB I CREATED mainnet-fork-dev only because forking the mainnet 
 
 def deploy_fund_me():
     account = get_account()
@@ -31,7 +31,10 @@ def deploy_fund_me():
 
 
 def get_account():
-    if network.show_active() in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
+    if (
+        network.show_active() in LOCAL_BLOCKCHAIN_ENVIRONMENTS 
+        or network.show_active() in FORKED_LOCAL_ENVIRONMENTS
+        ):
         return accounts[0]
     else:
         return accounts.add(config["wallets"]["from_key"])
